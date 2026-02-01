@@ -6,12 +6,13 @@ public class Timer : MonoBehaviour
 {
     public Text timerText; // Reference to the UI Text component
     private float elapsedTime = 0f; // Track elapsed time
+    private Coroutine timerCoroutine;
 
     void Start()
     {
         // Initialize the timer text
         timerText.text = FormatTime(elapsedTime);
-        StartCoroutine(UpdateTimer());
+        timerCoroutine = StartCoroutine(UpdateTimer());
     }
 
     private IEnumerator UpdateTimer()
@@ -29,5 +30,13 @@ public class Timer : MonoBehaviour
         int minutes = Mathf.FloorToInt(time / 60);
         float seconds = time % 60;
         return string.Format("{0:00}:{1:00.00}", minutes, seconds); // Format to "MM:SS.SS"
+    }
+
+    public void StopTimer()
+    {
+        if (timerCoroutine != null)
+        {
+            StopCoroutine(timerCoroutine);
+        }
     }
 }
